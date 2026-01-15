@@ -13,9 +13,13 @@ module fpmul(clk, a, b, c, over_mul_under);
 
 So, it is a pipelined design without a `reset` signal.
 
-**The design has `underflow`, `overflow`, and `NaN` support.**
+**The design has partial `underflow`, `overflow`, and `NaN` support.**
 
-It handles `NaN` output through a special 1-bit output `over_mul_under`.
+- It only handles `+/- underflow` and `+/- overflow` on the inputs. It does not handle `NaN` input.
+
+- It handles all  `+/- underflow`, `+/- overflow`, and `NaN` on the output through a special 1-bit output `over_mul_under`. See more details below:
+
+See the handling of `+/- underflow` and `+/- overflow` on the inputs in the **Definitions** section below.
 
 ## Definitions:
 
