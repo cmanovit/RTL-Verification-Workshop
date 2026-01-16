@@ -29,7 +29,7 @@ wsl --install Debian
 ```
 This will take a while. You'll be asked for a new username. Use
 ```
-baremetal-dev
+verif
 ```
 and just add a simple password (type it twice). We won't be doing anything unsecure on this machine.
 ### update `sudo` so we can do it without password
@@ -39,17 +39,42 @@ sudo visudo
 ```
 give the password. scroll down this file until you see: `%sudo   ALL=(ALL:ALL) ALL`. Add a new line below it and type:
 ```
-baremetal-dev ALL=(ALL) NOPASSWD: ALL
+verif ALL=(ALL) NOPASSWD: ALL
 ```
 so now that part reads:
 > ```
 > # Allow...
 > %sudo   ALL=(ALL:ALL) ALL
-> baremetal-dev ALL=(ALL) NOPASSWD: ALL
+> verif ALL=(ALL) NOPASSWD: ALL
 > 
 > # See...
 > ```
 Type: `ctrl-o`, type `enter`, then `ctrl-x`, you will be back at `dev@something:/mnt/c/Users/name$`
+
+## Install `oss-cad-suite`
+
+change directory to home:
+```
+cd ~/
+```
+
+install necessary software:
+```
+sudo apt update && sudo apt upgrade -y
+```
+
+install software:
+```
+sudo apt install -y make gcc
+```
+
+
+---
+
+---
+
+---
+
 ### Prettify:
 - Print out distro name and alias `l` `ll` `la`
 - Change `ls` colors
@@ -72,76 +97,7 @@ if [ -f /etc/os-release ]; then
     PS1="(${ID^})$PS1"
 fi
 
-# --- Guard to prevent double welcome message ---
-if [ -z "$BAREMETAL_WELCOME_SHOWN" ]; then
-    echo -e "\033[1;32mWelcome to WSL BareMetal-C-Dev Environment\033[0m"
-    ver | xargs
-    export BAREMETAL_WELCOME_SHOWN=true
-fi
 EOF
 ```
-> ### Optional but very nice `gocode` alias
-> You need to modify `YOURNAME` and `YOURPATH` to match your environment. Then,
-> ```bash
-> cat << 'EOF' >> ~/.bashrc
-> 
-> alias gocode='cd /mnt/c/Users/YOURNAME/YOURPATH/BareMetal-C-Labs/code/'
-> EOF
-> ```
-and run it
-```bash
-source ~/.bashrc
-```
-Now your prompt will be: `(Debian)[baremetal-dev]:/mnt/c/Users/name $`
-### Update system
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-### Install `git` and `gh`
-```bash
-sudo apt install -y git gh
-```
-
----
-
-### Log out and set WSL networking to `Mirrored`
-At the prompt, type:
-```
-exit
-```
-You will be returned to Windows, with something similar to `C:\Users\username> `
-
-click windows start menu, type in `wsl settings` and run it (the blue-head penguin).
-
-Click `Networking` tab on the left. On the right, select `Networking Mode` to be `Mirrored`.
-#### Double check that your networking is now `mirrored`:
-Check for the content of file: `C:\Users\NAME\.wslconfig` and it should have this section:
-```
-[wsl2]
-networkingMode=Mirrored
-```
-
----
-## Further info:
-
-**Make Debian the default distro when running `wsl`:**
-```
-wsl --set-default Debian
-```
-Check that it is truly the default ( `*` in front of the name):
-```
-wsl -l -v
-```
-How to launch a specific distro:
-```
-wsl -d <DistributionName>
-```
-
-### Restart WSL
-Either:
-- Open start menu and look for `Debian` and run it
-- Start `cmd` and run:
-  ```
-  wsl -d Debian
   ```
 You will be back at `(Debian)[baremetal-dev]:/mnt/c/Users/name $` prompt.
